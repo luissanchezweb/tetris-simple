@@ -7,7 +7,9 @@ const context = canvas.getContext('2d')
 const $score = document.querySelector('span')
 const $section = document.querySelector('section')
 const audio = new window.Audio('./tetris.mp3')
-
+const soundRotate = new window.Audio('./rotate-piece.mp3')
+const lineClear = new window.Audio('./line-clear.mp3')
+const pieceLanded = new window.Audio('./piece-landed.mp3');
 let score = 0
 
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
@@ -215,7 +217,10 @@ function update (time = 0) {
 }
 
 function draw () {
+  // let newImage = new Image();
+  // newImage.src = 'https://fjolt.com/images/misc/202203281.png'
   // todo el tablero
+  //context.drawImage(newImage)
   context.fillStyle = '#000'
   context.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -266,7 +271,7 @@ document.addEventListener('keydown', event => {
 
   if (event.key === 'ArrowUp') {
     const rotated = []
-
+    
     // ESTO ES LO MÁS COMPLICADO DE LEJOS
     for (let i = 0; i < piece.shape[0].length; i++) {
       const row = []
@@ -280,6 +285,7 @@ document.addEventListener('keydown', event => {
 
     const previousShape = piece.shape
     piece.shape = rotated
+    soundRotate.play();
     if (checkCollision()) {
       piece.shape = previousShape
     }
@@ -325,6 +331,7 @@ function resetPiece () {
 
 function removeRows () {
   const rowsToRemove = []
+  pieceLanded.play();
 
   board.forEach((row, y) => {
     if (row.every(value => value === 1)) {
@@ -337,7 +344,11 @@ function removeRows () {
     const newRow = Array(BOARD_WIDTH).fill(0)
     board.unshift(newRow)
     score += 10
+    lineClear.play();
+  
   })
+  
+  
 }
 
 $section.addEventListener('click', () => {
