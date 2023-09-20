@@ -16,8 +16,6 @@ canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 context.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 // 3. board
-// const board = createBoard(BOARD_WIDTH, BOARD_HEIGHT)
-
 const board = [
   [
     0, 0, 0, 0, 0, 0,
@@ -171,6 +169,7 @@ const board = [
   ]
 ]
 
+// Se encarga de rellenar el tablero 
 function createBoard (width, height) {
   return Array(height).fill().map(() => Array(width).fill(0))
 }
